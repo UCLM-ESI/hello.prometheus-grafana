@@ -2,7 +2,9 @@ Very basic lab on Prometheus + Grafana
 
 # Setup
 
+```
 $ docker compose up
+```
 
 # Endpoints
 
@@ -42,27 +44,28 @@ $ docker compose up
 
 ### Add upstream
 
-    - Add query
-    - Metric: node_network_transmit_bytes_total
-    - Operation: rate
-    - Apply/Save
+- Add query
+- Metric: node_network_transmit_bytes_total
+- Operation: rate
+- Apply/Save
 
 
 ### Import a prebuild dashboard
 
-    - Visit https://grafana.com/grafana/dashboards/1860-node-exporter-full/
-    - Click: Copy ID to clipboard
-    - In Grafana
-        - Home > Dashboards > New > Import
-        - Paste ID
-        - Click: Load
-        - Select a Prometheus data source: prometheus
+- Visit https://grafana.com/grafana/dashboards/1860-node-exporter-full/
+- Click: Copy ID to clipboard
+- In Grafana
+    - Home > Dashboards > New > Import
+    - Paste ID
+    - Click: Load
+    - Select a Prometheus data source: prometheus
 
 
 # Prometheus
 
 ## Add a panel
 
-Find "node_network_receive_bytes_total"
-Click "Graph"
-with rate: irate(node_network_receive_bytes_total{device="eth0"}[5m])
+- Find "node_network_receive_bytes_total"
+- Click "Graph"
+
+with rate: `irate(node_network_receive_bytes_total{device="eth0"}[5m])`
