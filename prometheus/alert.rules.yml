@@ -1,0 +1,11 @@
+groups:
+  - name: disk_space
+    rules:
+      - alert: LowDiskSpace
+        expr: node_filesystem_free_bytes < 10e+12
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low disk space on /"
+          description: "The available disk space on / is below 1GB."

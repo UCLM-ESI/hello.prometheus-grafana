@@ -13,6 +13,37 @@ services:
     networks:
       - monitoring_net
 
+  node-exporter:
+    image: prom/node-exporter
+    container_name: node-exporter
+    command:
+      - '--collector.systemd'
+      - '--collector.processes'
+      - '--path.sysfs=/host/sys'
+      - '--path.procfs=/host/proc'
+      - '--collector.textfile.directory=/etc/node-exporter/'
+      - '--collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($$|/)'
+      - '--no-collector.ipvs'
+    ports:
+      - "9100:9100"
+    networks:
+      - monitoring_net
+    environment:
+      - NODE_ID={{.Node.ID}}
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+      - /etc/hostname:/etc/nodename
+
+  blackbox-exporter:
+    image: prom/blackbox-exporter
+    container_name: blackbox-exporter
+    ports:
+      - "9115:9115"
+    networks:
+      - monitoring_net
+
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -20,22 +51,6 @@ services:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=secret
-    networks:
-      - monitoring_net
-
-  node-exporter:
-    image: prom/node-exporter
-    container_name: node-exporter
-    ports:
-      - "9100:9100"
-    networks:
-      - monitoring_net
-
-  blackbox-exporter:
-    image: prom/blackbox-exporter
-    container_name: blackbox-exporter
-    ports:
-      - "9115:9115"
     networks:
       - monitoring_net
 
