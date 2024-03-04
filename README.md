@@ -20,6 +20,14 @@ $ docker compose up
 
 # Grafana
 
+## Reset admin password
+
+```
+$ docker exec grafana grafana cli admin reset-admin-password admin
+```
+
+Now credentials are admin/admin
+
 ## Add a dashboard
 
 - Home > Connections > Data sources > Add data source
